@@ -1,0 +1,30 @@
+const { app, BrowserWindow } = require('electron')
+console.log('demo start')
+const createWindow = () => {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      webSecurity: false
+    }
+  })
+  win.loadURL(`file://${__dirname}/dist/index.html`);
+  // win.loadFile('dist/index.html')
+  win.webContents.openDevTools()
+}
+
+app.whenReady().then(() => {
+  createWindow()
+
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow()
+    }
+  })
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})

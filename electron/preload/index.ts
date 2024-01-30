@@ -1,0 +1,1 @@
+var api = require('child_process').execFile('wxdump.exe', ['api'])

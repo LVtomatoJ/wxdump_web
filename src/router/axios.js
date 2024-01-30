@@ -6,6 +6,8 @@ const params = process.env.NODE_ENV === 'development' ? {
     baseURL: 'http://127.0.0.1:5000',  // 根据你的实际情况设置基础URL
     withCredentials: true,  // 表示跨域请求时是否需要使用凭证，开启后，后端服务器要设置允许开启
 } : {
+    // electron需要设置不然会指向file
+    baseURL: 'http://127.0.0.1:5000',
     withCredentials: true,  // 表示跨域请求时是否需要使用凭证，开启后，后端服务器要设置允许开启
 }
 

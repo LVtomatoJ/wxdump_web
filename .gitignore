@@ -30,3 +30,5 @@ coverage
 *.tsbuildinfo
 tsconfig.app.tsbuildinfo
 tsconfig.node.tsbuildinfo
+out/
+wxdump_tmp/
