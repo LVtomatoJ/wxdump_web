@@ -6,23 +6,14 @@
       <img :src="headUrl">
       <div class="info">
         <p class="time">{{ direction }}</p>
-        <div class="demo-video__preview">
-          <video controls width="30%">
-              <source :src=videoSrc type="video/mp4" />
-          </video>
-        </div>
+        <div class="info-content" v-html="sanitizeHTML(content)"></div>
       </div>
     </div>
     <!-- 我的 -->
     <div class="word-my" v-else>
       <div class="info">
         <p class="time">{{ direction }}</p>
-
-        <div class="demo-video__preview">
-            <video controls width="50%">
-              <source :src=videoSrc type="video/mp4" />
-            </video>
-        </div>
+        <div class="info-content" v-html="sanitizeHTML(content)"></div>
       </div>
       <img :src="headUrl">
     </div>
@@ -30,10 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, onMounted, ref} from "vue";
-import http from '@/router/axios.js';
-
-
+import {defineProps} from "vue";
 
 const props = defineProps({
   is_sender: {
@@ -51,18 +39,14 @@ const props = defineProps({
   direction: {
     type: String,
     default: ''
-  },
-  src: {
-    type: String,
-    default: ''
   }
 })
-const videoSrc = ref("");
-
-onMounted(async () => {
-  videoSrc.value = `/api/video/${props.src}`;
-});
-
+const sanitizeHTML = (html) => {
+  // Use DOMParser to parse the HTML and then serialize it to a trusted HTML string
+  html = html.replace(/\n/g, '<br>');
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.innerHTML;
+};
 </script>
 
 <style scoped lang="scss">
@@ -100,12 +84,7 @@ onMounted(async () => {
         background: #fff;
         position: relative;
         margin-top: 8px;
-      }
-
-      .chat_img {
-        width: 200px;
-        height: 200px;
-        border-radius: 5px;
+        display: inline-block;
       }
 
       //小三角形
@@ -157,12 +136,7 @@ onMounted(async () => {
         margin-top: 8px;
         background: #95EC69;
         text-align: left;
-      }
-
-      .chat_img {
-        width: 200px;
-        height: 200px;
-        border-radius: 5px;
+        display: inline-block;
       }
 
       //小三角形
@@ -177,22 +151,5 @@ onMounted(async () => {
       }
     }
   }
-}
-
-.demo-image__error .image-slot {
-  font-size: 30px;
-}
-
-.demo-image__error .image-slot .el-icon {
-  font-size: 30px;
-}
-
-.demo-image__error .el-image {
-  width: 100%;
-  height: 200px;
-}
-.demo-video__preview {
-  padding-left: 5px;
-  padding-right: 5px;
 }
 </style>
